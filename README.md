@@ -28,6 +28,7 @@ Need to deploy your Worker to Cloudflare? Python Workers are in open beta and ha
 - [**`16-r2-file-upload/`**](16-r2-file-upload) — upload, download, and list files using [R2](https://developers.cloudflare.com/r2/) object storage.
 - [**`17-queues/`**](17-queues) — produce and consume messages using [Queues](https://developers.cloudflare.com/queues/).
 - [**`18-vectorize-semantic-search/`**](18-vectorize-semantic-search) — semantic search using [Vectorize](https://developers.cloudflare.com/vectorize/) and [Workers AI](https://developers.cloudflare.com/workers-ai/) embeddings.
+- [**`19-browser-rendering/`**](19-browser-rendering) — take screenshots, extract content, and generate PDFs using [Browser Rendering](https://developers.cloudflare.com/browser-rendering/).
 
 
 
