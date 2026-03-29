@@ -1,0 +1,18 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "python-r2-file-upload",
+	"main": "src/entry.py",
+	"compatibility_date": "2025-11-02",
+	"compatibility_flags": [
+		"python_workers"
+	],
+	"r2_buckets": [
+		{
+			"binding": "MY_BUCKET",
+			"bucket_name": "<YOUR_BUCKET_NAME>"
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}

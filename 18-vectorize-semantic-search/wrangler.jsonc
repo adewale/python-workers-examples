@@ -1,0 +1,21 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "python-vectorize-semantic-search",
+	"main": "src/entry.py",
+	"compatibility_date": "2025-11-02",
+	"compatibility_flags": [
+		"python_workers"
+	],
+	"ai": {
+		"binding": "AI"
+	},
+	"vectorize": [
+		{
+			"binding": "VECTORIZE_INDEX",
+			"index_name": "python-semantic-search"
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}

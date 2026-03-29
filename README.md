@@ -15,16 +15,19 @@ Need to deploy your Worker to Cloudflare? Python Workers are in open beta and ha
 
 ## Examples
 
-- [**`01-hello/`**](01-hello) — the most basic Python Worker
-- [**`02-binding/`**](02-binding) — shows how [bindings](https://developers.cloudflare.com/workers/configuration/bindings/) work in Python Workers. Put a key into Workers KV, and then read it.
-- [**`03-fastapi/`**](03-fastapi) — demonstrates how to use the [FastAPI](https://fastapi.tiangolo.com/) package with Python Workers
+- [**`01-hello/`**](01-hello) — the most basic Python Worker
+- [**`02-binding/`**](02-binding) — shows how [bindings](https://developers.cloudflare.com/workers/configuration/bindings/) work in Python Workers. Put a key into Workers KV, and then read it.
+- [**`03-fastapi/`**](03-fastapi) — demonstrates how to use the [FastAPI](https://fastapi.tiangolo.com/) package with Python Workers
 - [**`04-query-d1/`**](04-query-d1) - shows how to query D1 with Python Workers
-- [**`05-langchain/`**](05-langchain) — demonstrates how to use the [LangChain](https://pypi.org/project/langchain/) package with Python Workers. Currently broken.
-- [**`06-assets/`**](06-assets) — An example with an assets binding.
-- [**`07-durable-objects/`**](06-durable-objects) — An example with storing state in a [Durable Object](https://developers.cloudflare.com/durable-objects/).
-- [**`08-cron/`**](08-cron) — shows a simple [cron job](https://developers.cloudflare.com/workers/configuration/cron-triggers/).
+- [**`05-langchain/`**](05-langchain) — demonstrates how to use the [LangChain](https://pypi.org/project/langchain/) package with Python Workers. Currently broken.
+- [**`06-assets/`**](06-assets) — An example with an assets binding.
+- [**`07-durable-objects/`**](06-durable-objects) — An example with storing state in a [Durable Object](https://developers.cloudflare.com/durable-objects/).
+- [**`08-cron/`**](08-cron) — shows a simple [cron job](https://developers.cloudflare.com/workers/configuration/cron-triggers/).
 - [**`09-workers-ai/`**](09-workers-ai) makes a call [Workers AI](https://developers.cloudflare.com/workers-ai/) to run inference on Cloudflare's Global Network.
-- [**`10-workflows/`**](09-workflows) — shows a durable [Workflows](https://developers.cloudflare.com/workflows/) example.
+- [**`10-workflows/`**](09-workflows) — shows a durable [Workflows](https://developers.cloudflare.com/workflows/) example.
+- [**`16-r2-file-upload/`**](16-r2-file-upload) — upload, download, and list files using [R2](https://developers.cloudflare.com/r2/) object storage.
+- [**`17-queues/`**](17-queues) — produce and consume messages using [Queues](https://developers.cloudflare.com/queues/).
+- [**`18-vectorize-semantic-search/`**](18-vectorize-semantic-search) — semantic search using [Vectorize](https://developers.cloudflare.com/vectorize/) and [Workers AI](https://developers.cloudflare.com/workers-ai/) embeddings.
 
 
 
@@ -33,7 +36,7 @@ Need to deploy your Worker to Cloudflare? Python Workers are in open beta and ha
 - Python Workers are in open beta. You can use packages in your Workers by using the [pywrangler](https://github.com/cloudflare/workers-py?tab=readme-ov-file#pywrangler) tool.
 - You must add the `python_workers` compatibility flag to your Worker while Python Workers are in open beta.
 
-We’d love your feedback. Join the `#python-workers channel` in the [Cloudflare Developers Discord](https://discord.cloudflare.com/) and let us know what you’d like to see next.
+We'd love your feedback. Join the `#python-workers channel` in the [Cloudflare Developers Discord](https://discord.cloudflare.com/) and let us know what you'd like to see next.
 
 ## License
 
