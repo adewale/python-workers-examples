@@ -14,7 +14,20 @@ You can also run `uv run pywrangler deploy` to deploy the example.
 
 ## Routes
 
-- `GET /` — HTML page with upload instructions
-- `PUT /file/<key>` — Upload a file with the given key
+- `GET /` — Instructions
+- `PUT /file/<key>` — Upload a file with the given key (set `Content-Type` header)
 - `GET /file/<key>` — Download a file by key
 - `GET /list` — List all files in the bucket
+
+## Try it
+
+```sh
+# Upload a text file
+curl -X PUT -H "Content-Type: text/plain" -d "Hello R2" http://localhost:8787/file/hello.txt
+
+# Download it
+curl http://localhost:8787/file/hello.txt
+
+# List files
+curl http://localhost:8787/list
+```

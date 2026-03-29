@@ -1,4 +1,3 @@
-import json
 from workers import WorkerEntrypoint, Response
 
 
@@ -18,8 +17,10 @@ class Default(WorkerEntrypoint):
         )
 
     async def queue(self, batch):
-        messages = []
         for msg in batch.messages:
-            messages.append(msg.body)
-            msg.ack()
-        print(f"Processed batch of {len(messages)} messages: {json.dumps(messages)}")
+            try:
+                print(f"Processing message {msg.id}: {msg.body}")
+                msg.ack()
+            except Exception as e:
+                print(f"Failed to process message {msg.id}: {e}")
+                msg.retry()
