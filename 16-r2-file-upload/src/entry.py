@@ -23,8 +23,13 @@ class Default(WorkerEntrypoint):
             obj = await self.env.MY_BUCKET.get(key)
             if obj is None:
                 return Response("Not found", status=404)
-            headers = obj.writeHttpMetadata({})
-            return Response(await obj.arrayBuffer(), headers=headers)
+            content_type = "application/octet-stream"
+            if obj.httpMetadata and obj.httpMetadata.contentType:
+                content_type = obj.httpMetadata.contentType
+            return Response(await obj.arrayBuffer(), headers={
+                "Content-Type": content_type,
+                "etag": obj.httpEtag,
+            })
 
         if request.method == "PUT" and path.startswith("file/"):
             key = path[len("file/"):]
