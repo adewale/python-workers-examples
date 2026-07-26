@@ -1,9 +1,10 @@
-from workers import WorkerEntrypoint, Response, DurableObject
-import js
 import json
 import time
-from pyodide.ffi import create_proxy
 from urllib.parse import urlparse
+
+import js
+from pyodide.ffi import create_proxy
+from workers import DurableObject, Response, WorkerEntrypoint
 
 
 class BlueskyFirehoseConsumer(DurableObject):
@@ -88,7 +89,7 @@ class BlueskyFirehoseConsumer(DurableObject):
                 # Update last print time
                 self.last_print_time = current_time
 
-        except Exception as e:
+        except Exception as e:  # ruff: ignore[BLE001] Worker callbacks can raise host JS exceptions
             print(f"Error processing message: {e}")
 
     def _on_error(self, event):
