@@ -1,15 +1,15 @@
-from workers import WorkerEntrypoint, Response, Request
 from pygments import highlight
-from pygments.lexers import get_lexer_by_name, guess_lexer
 from pygments.formatters import HtmlFormatter
+from pygments.lexers import get_lexer_by_name, guess_lexer
 from pygments.util import ClassNotFound
+from workers import Request, Response, WorkerEntrypoint
 
 
 class Default(WorkerEntrypoint):
     async def fetch(self, request: Request):
         return Response("Python RPC server is running. Use RPC to call methods.")
 
-    async def highlight_code(self, code: str, language: str = None) -> dict:
+    async def highlight_code(self, code: str, language: str | None = None) -> dict:
         """
         Syntax highlight code using Pygments.
 
