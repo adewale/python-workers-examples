@@ -1,12 +1,13 @@
 import os
-import subprocess
-import time
+import signal
 import socket
+import subprocess
 import sys
-import pytest
+import time
+from contextlib import contextmanager
 from pathlib import Path
 
-from contextlib import contextmanager
+import pytest
 
 REPO_ROOT = Path(__file__).parents[1]
 
@@ -20,31 +21,43 @@ def find_free_port():
     return port
 
 
+def _signal_server(process, sig):
+    try:
+        os.killpg(process.pid, sig)
+    except ProcessLookupError:
+        pass
+
+
 @contextmanager
-def pywrangler_dev_server(directory: str):
+def pywrangler_dev_server(directory: str, persist_to: Path):
     """Context manager to start and stop pywrangler dev server."""
     port = find_free_port()
 
     process = subprocess.Popen(
-        ["uv", "run", "pywrangler", "dev", "--port", str(port)],
+        [
+            "uv", "run", "pywrangler", "dev", "--port", str(port),
+            "--persist-to", str(persist_to),
+        ],
         cwd=REPO_ROOT / directory,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
+        start_new_session=True,
     )
 
     # Wait for server to be ready
     ready = False
     timeout = 30
-    if "CI" in os.environ and directory.startswith("01"):
-        # Starting the server the first time takes a really long time in CI.
-        # TODO: Why does this happen?
+    if "CI" in os.environ:
+        # Cold examples download their own native and Pyodide dependencies.
         timeout = 300
 
     start_time = time.time()
 
     while not ready and time.time() - start_time < timeout:
         line = process.stdout.readline()
+        if not line and process.poll() is not None:
+            break
         if line:
             print(line.rstrip(), file=sys.stdout)  # Also print to stdout
             if "[wrangler:info] Ready on" in line:
@@ -53,21 +66,22 @@ def pywrangler_dev_server(directory: str):
         time.sleep(0.1)
 
     if not ready:
-        process.terminate()
+        _signal_server(process, signal.SIGTERM)
         raise RuntimeError(f"Server failed to start within {timeout} seconds")
 
     try:
         yield port
     finally:
-        process.terminate()
+        _signal_server(process, signal.SIGTERM)
         try:
             process.wait(timeout=5)
         except subprocess.TimeoutExpired:
-            process.kill()
+            _signal_server(process, signal.SIGKILL)
+            process.wait()
 
 
 @pytest.fixture
-def dev_server(request):
+def dev_server(request, tmp_path):
     """Fixture that starts a dev server for the appropriate directory based on test name."""
     if request.node.get_closest_marker("skip") or request.node.get_closest_marker(
         "xfail"
@@ -79,5 +93,5 @@ def dev_server(request):
     # Extract directory name from test name (e.g., "test_01_hello" -> "01-hello")
     dir_name = test_name.replace("test_", "").replace("_", "-")
 
-    with pywrangler_dev_server(dir_name) as port:
+    with pywrangler_dev_server(dir_name, tmp_path) as port:
         yield port

@@ -1,9 +1,10 @@
-from workers import WorkerEntrypoint, Response, DurableObject
-from pathlib import Path
-from js import WebSocketPair
 import json
+from datetime import UTC, datetime
+from pathlib import Path
 from urllib.parse import urlparse
-from datetime import datetime, timezone
+
+from js import WebSocketPair
+from workers import DurableObject, Response, WorkerEntrypoint
 
 
 class Chatroom(DurableObject):
@@ -67,7 +68,7 @@ class Chatroom(DurableObject):
 
             # Broadcast to all connected clients
             self.broadcast(json.dumps(msg))
-        except Exception as e:
+        except Exception as e:  # ruff: ignore[BLE001] Worker callbacks can raise host JS exceptions
             print(f"Error handling message: {e}")
 
     async def webSocketClose(self, ws, code, reason, wasClean):
@@ -90,12 +91,12 @@ class Chatroom(DurableObject):
         for ws in websockets:
             try:
                 ws.send(message)
-            except Exception as e:
+            except Exception as e:  # ruff: ignore[BLE001] WebSocket sends can raise host JS exceptions
                 print(f"Error broadcasting to session: {e}")
 
     def get_timestamp(self):
         """Get current timestamp in ISO format."""
-        return datetime.now(timezone.utc).isoformat()
+        return datetime.now(UTC).isoformat()
 
 
 class Default(WorkerEntrypoint):

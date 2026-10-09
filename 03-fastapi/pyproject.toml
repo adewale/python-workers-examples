@@ -5,7 +5,6 @@ description = "Python fastapi example"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "webtypy>=0.1.7",
     "fastapi",
     "markupsafe",
     "jinja2",
@@ -13,6 +12,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "workers-py",
+    "workers-py==1.17.7",
     "workers-runtime-sdk"
 ]
