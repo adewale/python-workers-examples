@@ -18,6 +18,14 @@ The examples keep development tooling in the `dev` dependency group.
 SDK supplies the Worker types. Bundling `webtypy` needlessly invokes the legacy
 Pyodide package installer, which fails with newer pip/urllib3 versions.
 
+## Engineering notes
+
+- [Lessons learned](LESSONS_LEARNED.md): dated runtime and test-harness findings.
+- [Shared engineering guidance](docs/engineering-guidance.md): reusable diagnosis,
+  testing, toolchain, and merge practices.
+- [Ruff rollout retrospective](docs/retrospectives/2026-10-09-ruff-rollout.md):
+  cross-project evidence, completed scope, and remaining coverage gaps.
+
 ## Examples
 
 - [**`01-hello/`**](01-hello) — the most basic Python Worker
