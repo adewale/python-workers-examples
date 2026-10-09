@@ -1,4 +1,5 @@
 import subprocess
+import time
 
 import pytest
 import requests
@@ -43,7 +44,7 @@ def test_03_fastapi(dev_server):
 
 
 @pytest.fixture
-def init_db():
+def init_db(tmp_path):
     subprocess.run(
         [
             "uv",
@@ -53,6 +54,8 @@ def init_db():
             "execute",
             "quotes",
             "--local",
+            "--persist-to",
+            str(tmp_path),
             "--file",
             "db_init.sql",
         ],
@@ -149,3 +152,13 @@ def test_10_workflows(dev_server):
     # Check that response is JSON
     status = response.json()
     assert isinstance(status, dict)
+    deadline = time.monotonic() + 45
+    while status["status"] != "complete" and time.monotonic() < deadline:
+        assert status["status"] != "errored", status
+        time.sleep(0.5)
+        response = requests.get(
+            f"http://localhost:{port}/status/{workflow_id}", timeout=10
+        )
+        assert response.status_code == 200, response.text
+        status = response.json()
+    assert status["status"] == "complete", status

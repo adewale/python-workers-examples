@@ -13,6 +13,11 @@ You can run `npx wrangler@latest dev` in any example project directory to run a 
 
 Need to deploy your Worker to Cloudflare? Python Workers are in open beta and have a few [limitations](#open-beta-and-limits).
 
+The examples keep development tooling in the `dev` dependency group.
+`webtypy` is typing-only and is not a runtime dependency; the Workers runtime
+SDK supplies the Worker types. Bundling `webtypy` needlessly invokes the legacy
+Pyodide package installer, which fails with newer pip/urllib3 versions.
+
 ## Examples
 
 - [**`01-hello/`**](01-hello) — the most basic Python Worker
